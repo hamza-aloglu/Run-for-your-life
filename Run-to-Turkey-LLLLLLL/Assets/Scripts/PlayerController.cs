@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     private float speed = 14.0f;
     private float xBound = 17.0f;
+    private float bulletBounce = 3.0f;
 
     bool isOnGround = true;
 
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
         {
             isOnGround = true;
         }
+        
     }
 
 
@@ -70,6 +72,33 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(xBound, transform.position.y, transform.position.z);
             playerRb.velocity = Vector3.zero;
+        }
+    }
+
+    // Adjusting buffs, missiles, mines, bullets.
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("BuffHealth"))
+        {
+            Destroy(other.gameObject);
+        }
+        else if (other.gameObject.CompareTag("BuffSpeed"))
+        {
+            Destroy(other.gameObject);
+        }
+        else if (other.gameObject.CompareTag("Missile"))
+        {
+            Destroy(other.gameObject);
+        }
+        else if (other.gameObject.CompareTag("Mine"))
+        {
+            Destroy(other.gameObject);
+        }
+        else if (other.gameObject.CompareTag("Bullet"))
+        {
+            // if hits, bounces player a little, if hits 3 time game ends.
+            playerRb.AddForce(Vector3.left * bulletBounce, ForceMode.Impulse);
+            Destroy(other.gameObject);
         }
     }
 
