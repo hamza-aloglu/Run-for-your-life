@@ -11,11 +11,13 @@ public class PlayerController : MonoBehaviour
     bool isOnGround = true;
 
     private Rigidbody playerRb;
+    private GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -81,25 +83,38 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("BuffHealth"))
         {
             Destroy(other.gameObject);
+            gameManager.AddHealth(1);
         }
         else if (other.gameObject.CompareTag("BuffSpeed"))
         {
             Destroy(other.gameObject);
+            StartCoroutine(BuffSpeedDelay());
         }
         else if (other.gameObject.CompareTag("Missile"))
         {
             Destroy(other.gameObject);
+            gameManager.AddHealth(-3);
         }
         else if (other.gameObject.CompareTag("Mine"))
         {
             Destroy(other.gameObject);
+            gameManager.AddHealth(-3);
         }
         else if (other.gameObject.CompareTag("Bullet"))
         {
             // if hits, bounces player a little, if hits 3 time game ends.
             playerRb.AddForce(Vector3.left * bulletBounce, ForceMode.Impulse);
             Destroy(other.gameObject);
+            gameManager.AddHealth(-1);
         }
+    }
+
+    IEnumerator BuffSpeedDelay()
+    {
+        float orgSpeed = speed;
+        speed = 22;
+        yield return new WaitForSeconds(2);
+        speed = orgSpeed;
     }
 
 
