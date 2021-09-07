@@ -11,18 +11,21 @@ public class SpawnManager : MonoBehaviour
 
 
     private float xSpawnPos = 20.0f; // for mine.
-    private float ySpawnPos = 14.0f; // for missile.
     private float yGroundPos = 0.5f; // for mine.
 
-    private float ySpawnRange = 12.0f; // for bullet.
-    private float xSpawnRange = 17.0f; // for missile.
-    // Start is called before the first frame update
+    private float ySpawnBottomPos = 2.1f; // for bullet and buffs.
+    private float ySpawnUpPos = 9.0f; // for bullet and buffs.
+
+    private float ySpawnPos = 18.0f; // for missile.
+    private float xSpawnUpPos = 25.0f; // for missile.
+    private float xSpawnBottomPos = 5.0f; // for missile.
+
     void Start()
     {
-        InvokeRepeating("SpawnMissile", 1, 1.2f);
-        InvokeRepeating("SpawnMine", 1, 1.5f);
-        InvokeRepeating("SpawnBullet", 1, 0.7f);
-        InvokeRepeating("SpawnRandomBuff", 1, 3);
+        InvokeRepeating("SpawnMissile", 4, 6.2f);
+        InvokeRepeating("SpawnMine", 4, 4.1f);
+        InvokeRepeating("SpawnBullet", 4, 2.3f);
+        InvokeRepeating("SpawnRandomBuff", 4, 10);
     }
 
     // Update is called once per frame
@@ -35,7 +38,7 @@ public class SpawnManager : MonoBehaviour
     
     private void SpawnBullet()
     {
-        float yRandom = Random.Range(0, ySpawnRange);
+        float yRandom = Random.Range(ySpawnBottomPos, ySpawnUpPos);
         Vector3 spawnPos = new Vector3(xSpawnPos, yRandom, 0);
         Instantiate(bullet, spawnPos, bullet.transform.rotation);
     }
@@ -48,7 +51,7 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnMissile()
     {
-        float xRandom = Random.Range(0, xSpawnRange);
+        float xRandom = Random.Range(xSpawnBottomPos, xSpawnUpPos); 
         Vector3 spawnPos = new Vector3(xRandom, ySpawnPos, 0);
         Instantiate(missile, spawnPos, missile.transform.rotation);
     }
@@ -56,7 +59,7 @@ public class SpawnManager : MonoBehaviour
     private void SpawnRandomBuff()
     {
         int spawnIndex = Random.Range(0, buffs.Length);
-        float yRandom = Random.Range(0, ySpawnRange);
+        float yRandom = Random.Range(ySpawnBottomPos, ySpawnUpPos);
 
         Vector3 spawnPos = new Vector3(xSpawnPos, yRandom, 0);
 

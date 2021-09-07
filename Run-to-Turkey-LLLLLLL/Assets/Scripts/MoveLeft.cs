@@ -6,21 +6,27 @@ public class MoveLeft : MonoBehaviour
 {
     private float xDestroy = -18.0f; // The position objects will be destroyed.
 
-    public float speed = 2.0f;
+    public float speed = 122;
 
-    Rigidbody objectRb;
+    
     // Start is called before the first frame update
     void Start()
     {
-        objectRb = GetComponent<Rigidbody>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        objectRb.AddForce(Vector3.left * speed);
+        Move();
+    }
 
-        if(transform.position.x < xDestroy)
+    //Moves objects and destroys if they pass "xDestroy" position.
+    void Move()
+    {
+        transform.Translate(Vector3.left * speed * Time.deltaTime);
+
+        if (transform.position.x < xDestroy)
         {
             Destroy(gameObject);
         }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MoveDown : MonoBehaviour
 {
-    private float speed = 6.0f;
+    private float downSpeed = 6.0f;
+    private float leftSpeed = 6f; //missile should go slightly to the left while dropping.
 
     Rigidbody objectRb;
     // Start is called before the first frame update
@@ -16,7 +17,8 @@ public class MoveDown : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        objectRb.AddForce(Vector3.down * speed);
+        objectRb.AddForce(Vector3.down * downSpeed);
+        transform.Translate(Vector3.left * leftSpeed * Time.deltaTime);
 
         if(transform.position.y < -1)
         {

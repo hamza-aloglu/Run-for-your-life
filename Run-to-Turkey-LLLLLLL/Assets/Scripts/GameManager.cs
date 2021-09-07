@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    //private float time = 0;
     private float score = 0;
-    private int health = 3;
-    // Start is called before the first frame update
+    public int health = 3;
+
+    public bool isGameOver = false;
     void Start()
     {
         
