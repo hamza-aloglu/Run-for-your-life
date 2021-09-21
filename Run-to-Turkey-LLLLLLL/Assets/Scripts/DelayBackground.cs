@@ -5,12 +5,17 @@ using UnityEngine;
 public class DelayBackground : MonoBehaviour
 {
     MoveBackground moveBackground;
-    // Start is called before the first frame update
+
+    private AudioSource audioSource;
+    public AudioClip backgroundSound;
+    
     void Start()
     {
         moveBackground = GetComponent<MoveBackground>();
         moveBackground.enabled = false;
         Invoke("EnableBackground", 3); // Stopping the background for 3 seconds for player to walk to scene.
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -23,5 +28,6 @@ public class DelayBackground : MonoBehaviour
     void EnableBackground()
     {
         moveBackground.enabled = true;
+        audioSource.Play();
     }
 }

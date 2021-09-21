@@ -20,9 +20,11 @@ public class MoveDown : MonoBehaviour
         objectRb.AddForce(Vector3.down * downSpeed);
         transform.Translate(Vector3.left * leftSpeed * Time.deltaTime);
 
-        if(transform.position.y < -1)
+        if(transform.position.y < -2)
         {
             Destroy(gameObject);
         }
     }
+
+    
 }

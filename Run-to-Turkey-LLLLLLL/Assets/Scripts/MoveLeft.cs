@@ -9,6 +9,7 @@ public class MoveLeft : MonoBehaviour
     public float speed = 122;
 
     
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -31,4 +32,5 @@ public class MoveLeft : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 }
