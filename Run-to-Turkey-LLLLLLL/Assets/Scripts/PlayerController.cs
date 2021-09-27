@@ -13,13 +13,16 @@ public class PlayerController : MonoBehaviour
     private Vector3 myGravity = new Vector3(0, -35, 0);
 
     public bool isOnGround = true;
-    public bool canDoubleJump = false;
-    
+    private bool canDoubleJump = false;
+    private bool isGameOver = false;
+    private bool isGameStarted = false;
 
     private Rigidbody playerRb;
     private GameManager gameManager;
     private PlayerAnimation playerAnimation;
     private MoveBackground moveBackground;
+    private SpawnManager spawnManager;
+    private DelayBackground delayBackground;
 
     private AudioSource sounds;
     public AudioClip allahuAkbarSound;
@@ -34,12 +37,13 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-        playerAnimation = GetComponent<PlayerAnimation>();
         sounds = GetComponent<AudioSource>();
 
+        playerAnimation = GetComponent<PlayerAnimation>();
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         moveBackground = GameObject.Find("Background").GetComponent<MoveBackground>();
-        
+        delayBackground = GameObject.Find("Background").GetComponent<DelayBackground>();
+        spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
     }
 
     // Update is called once per frame
@@ -48,9 +52,11 @@ public class PlayerController : MonoBehaviour
         MovePlayer();
         JumpPlayer();
         ConstrainPlayerPosition();
-        PlayerOnTheGround(); // Making sure player is not below the ground.
+        PlayerOnTheGround(); // Making sure player is not below to the ground.
         PlayerIsDead(); // When health is 0, game stops and death animation begins.
         Crouch();
+
+        
 
         Physics.gravity = myGravity;
     }
@@ -71,7 +77,7 @@ public class PlayerController : MonoBehaviour
     // Player right/left movement.
     private void MovePlayer()
     {
-        if(gameManager.isGameOver == false)
+        if(isGameOver == false && isGameStarted)
         {
             float horizontalInput = Input.GetAxis("Horizontal");
             playerRb.AddForce(Vector3.right * horizontalInput * runSpeed);
@@ -79,10 +85,9 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    //Player can jump BUT CANNOT DOUBLE JUMP.S
     private void JumpPlayer()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && gameManager.isGameOver == false)
+        if (Input.GetKeyDown(KeyCode.Space) && isGameOver == false && isGameStarted)
         {
             if (isOnGround)
             {
@@ -94,7 +99,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (canDoubleJump && gameManager.isGameOver == false)
+                if (canDoubleJump && isGameOver == false)
                 {
                     playerRb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
                     canDoubleJump = false;
@@ -104,6 +109,19 @@ public class PlayerController : MonoBehaviour
             }
             
         }
+    }
+
+    void Crouch()
+    {
+        if (Input.GetKey(KeyCode.LeftControl) && isGameOver == false && isGameStarted)
+        {
+            playerAnimation.playerAnim.SetInteger("WeaponType_int", 2);
+        }
+        else
+        {
+            playerAnimation.playerAnim.SetInteger("WeaponType_int", 0);
+        }
+
     }
 
     //Player movement/position constrained on left and right range.
@@ -182,9 +200,9 @@ public class PlayerController : MonoBehaviour
 
     void PlayerIsDead()
     {
-        if(gameManager.health <= 0)
+        if(gameManager.DisplayHealth() <= 0)
         {
-            gameManager.isGameOver = true;
+            isGameOver = true;
             playerAnimation.playerAnim.SetBool("Death_b", true);
             playerAnimation.playerAnim.SetInteger("DeathType_int", 2);
             moveBackground.enabled = false;
@@ -193,16 +211,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Crouch()
-    {
-        if (Input.GetKey(KeyCode.LeftControl) && gameManager.isGameOver == false)
-        {
-            playerAnimation.playerAnim.SetInteger("WeaponType_int", 2);
-        }
-        else
-        {
-            playerAnimation.playerAnim.SetInteger("WeaponType_int", 0);
-        }
+    
 
+    public void StartGame()
+    {
+        isGameStarted = true;
+        spawnManager.enabled = true;
+        moveBackground.enabled = true;
+        delayBackground.enabled = true;
+        playerAnimation.enabled = true;
+    }
+
+    public bool IsGameStarted()
+    {
+        return isGameStarted;
+    }
+
+    public bool IsGameOver()
+    {
+        return isGameOver;
     }
 }

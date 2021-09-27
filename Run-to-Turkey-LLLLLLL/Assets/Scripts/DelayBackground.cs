@@ -7,7 +7,6 @@ public class DelayBackground : MonoBehaviour
     MoveBackground moveBackground;
 
     private AudioSource audioSource;
-    public AudioClip backgroundSound;
     
     void Start()
     {

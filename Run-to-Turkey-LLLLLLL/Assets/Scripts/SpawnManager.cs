@@ -23,15 +23,18 @@ public class SpawnManager : MonoBehaviour
     public float gameTime = 0;
 
     SpawnManagerSpeedy spawnManagerSpeedy;
+    GameManager gameManager;
 
     void Start()
     {
         spawnManagerSpeedy = GameObject.Find("Spawn Manager").GetComponent<SpawnManagerSpeedy>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
         InvokeRepeating("SpawnMissile", 4, 6.2f);
         InvokeRepeating("SpawnMine", 4, 4.1f);
         InvokeRepeating("SpawnBullet", 4, 2.3f);
         InvokeRepeating("SpawnRandomBuff", 4, 10);
+        
     }
 
     // Update is called once per frame
@@ -39,12 +42,15 @@ public class SpawnManager : MonoBehaviour
     {
         gameTime += Time.deltaTime;
 
-        if (gameTime > 30)
+        if (gameTime > 30 && gameManager.DisplayHealth() > 0)
         {
+            CancelInvoke();
             spawnManagerSpeedy.enabled = true;
             this.enabled = false;
-           
         }
+
+        if (gameManager.DisplayHealth() <= 0)
+            CancelInvoke();
     }
 
 

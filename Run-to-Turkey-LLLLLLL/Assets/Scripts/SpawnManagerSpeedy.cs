@@ -21,23 +21,37 @@ public class SpawnManagerSpeedy : MonoBehaviour
     private float xSpawnUpPos = 25.0f; // for missile.
     private float xSpawnBottomPos = 5.0f; // for missile.
 
-    
+    GameManager gameManager;
 
 
     void Start()
     {
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         
         InvokeRepeating("SpawnMissile", 10, 4.2f);
-        InvokeRepeating("SpawnMine", 10, 3.1f);
-        InvokeRepeating("SpawnBullet", 10, 1.4f);
-        InvokeRepeating("SpawnRandomBuff", 10, 8);
+        InvokeRepeating("SpawnMissile", 16, 3.5f);
+
+        InvokeRepeating("SpawnMine", 10, 3.6f);
+        InvokeRepeating("SpawnMine", 16, 3f);
+
+        InvokeRepeating("SpawnBullet", 10, 2.5f);
+        InvokeRepeating("SpawnBullet", 16, 2.1f);
+
+        InvokeRepeating("SpawnRandomBuff", 10, 7.1f);
+        InvokeRepeating("SpawnRandomBuff", 16, 4.5f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        
+        if (gameManager.DisplayHealth() <= 0)
+        {
+            // CancelInvoke("SpawnBullet");
+            // CancelInvoke("SpawnMine");
+            CancelInvoke();// Stops spawning after game is over
+            this.enabled = false;
+        }
+            
     }
 
     public void SpawnBullet()
