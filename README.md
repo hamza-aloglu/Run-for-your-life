@@ -1,2 +1,4 @@
 # Run-to-Turkey
-A game for Unity junior programmer tutorial's personal project part. 
+I created this game with skills that I learned from Unity's "Junior Programmer" course.
+
+Gameplay link: (coming soon)
