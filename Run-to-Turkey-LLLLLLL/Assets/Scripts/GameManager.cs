@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public PlayerController playerController;
+    public PlayerController playerController; //
 
     private float score = 0;
-    private int health = 10;
+    private int health = 5;
     private float gameTime = 0;
 
     public TextMeshProUGUI title;
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
             restartButton.gameObject.SetActive(true);
         }
 
-        if (gameTime > 32 && gameTime < 37)
+        if (gameTime > 32 && gameTime < 37 && !playerController.IsGameOver())
         {
             levelUpText.gameObject.SetActive(true);
             Sounds.PlayOneShot(levelUpSound);

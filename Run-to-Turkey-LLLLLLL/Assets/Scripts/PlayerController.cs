@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("BuffHealth"))
         {
             Destroy(other.gameObject);
-            gameManager.AddHealth(1);
+            gameManager.AddHealth(2);
             sounds.PlayOneShot(elhamdulillahSound);
         }
         else if (other.gameObject.CompareTag("BuffSpeed"))
