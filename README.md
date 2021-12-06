@@ -1,4 +1,4 @@
-# Rush-for-Your-Life
+# Run-for-Your-Life
 
 The game's first idea was to make a game where refugees would be attacked by missiles, bullets etc as they rushing to Turkey but I couldn't model it because modelling was boring so this is the final product.
 
